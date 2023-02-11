@@ -4,21 +4,21 @@ pipeline {
 
    stages {
    
-     stage('Install Dependencies') { 
+     stage('Pulling git code') { 
         steps { 
-           sh 'npm install' 
+           git credentialsId: 'admin', url: 'https://github.com/sowmyarajgit/test-nodejs-app.git'
         }
      }
      
-     stage('Test') { 
+     stage('install dependencies') { 
         steps { 
-           sh 'echo "testing application..."'
+           sh 'npm install'
         }
       }
 
-         stage("Deploy application") { 
+         stage("nodejs build") { 
          steps { 
-           sh 'echo "deploying application..."'
+           sh 'npm build'
          }
 
      }
