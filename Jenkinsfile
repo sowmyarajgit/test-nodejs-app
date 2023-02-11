@@ -10,18 +10,25 @@ pipeline {
         }
      }
      
-     stage('install dependencies') { 
+     stage('nodejs build') { 
         steps { 
            sh 'npm install'
         }
       }
 
-         stage("nodejs build") { 
-         steps { 
-           sh 'npm run'
-         }
-
-     }
+       stage ("Sonar Analysis") {
+            environment {
+               scannerHome = tool 'admin_sonarscanner'
+            }
+            steps {
+                echo '<--------------- Sonar Analysis started  --------------->'
+                withSonarQubeEnv('admin_sonarcube') {    
+                    sh "${scannerHome}/bin/sonar-scanner"
+                echo '<--------------- Sonar Analysis stopped  --------------->'
+                }    
+               
+            }   
+        }   
   
    	}
 
